@@ -20,15 +20,20 @@ const personajes = [];
 let nombreJugador;
 let fotoJugador;
 let vidaJugador;
-let habilidadJugador;
-let botonHabJugador;
+let numeroDePersonaje;
+let botonHab1Jugador = `<button id="botonHab1Jugador" class="botones-ataque" type="button">Golpe</button>`;
+let botonHab2Jugador = `<button id="botonHab2Jugador" class="botones-ataque" type="button">Arma</button>`;
+let botonHab3Jugador = `<button id="botonHab3Jugador" class="botones-ataque" type="button">Habilidad Nen</button>`;
+
 
 
 let nombreEnemigo;
 let fotoEnemigo;
 let vidaEnemigo;
-let habilidadEnemigo;
-let botonHabEnemigo;
+let botonHab1Enemigo = `<button id="botonHab1Enemigo" class="botones-ataque" type="button">Golpe</button>`;
+let botonHab2Enemigo = `<button id="botonHab2Enemigo" class="botones-ataque" type="button">Arma</button>`;
+let botonHab3Enemigo = `<button id="botonHab3Enemigo" class="botones-ataque" type="button">Habilidad Nen</button>`;
+ 
 
 
 let generarPersonajes;
@@ -59,33 +64,33 @@ personajes.push(Gon, Killua, Kurapika, Leorio, Hisoka);
 
 
 Gon.habilidades.push(
-  { nombre: "Jajanken: Piedra", daño: 30 },
-  { nombre: "Jajanken: Tijera", daño: 20 },
-  { nombre: "Jajanken: Papel", daño: 20 }
+  { nombre: "Golpe", daño: 25 },
+  { nombre: "Arma", daño: 20 },
+  { nombre: "Nen", daño: 35 }
 );
 
 Killua.habilidades.push(
-  { nombre: "Palma Relámpago", daño: 25 },
-  { nombre: "Yoyos", daño: 30 },
-  { nombre: "Velocidad de Dios", daño: 20 }
+  { nombre: "Golpe", daño: 25 },
+  { nombre: "Arma", daño: 25 },
+  { nombre: "Nen", daño: 30 }
 );
 
 Kurapika.habilidades.push(
-  { nombre: "Cadenas Conjuradas", daño: 30 },
-  { nombre: "Holy Chain", daño: 0, cura: 20 },
-  { nombre: "Espadas Shikomizues", daño: 20 }
+  { nombre: "Golpe", daño: 20 },
+  { nombre: "Arma", daño: 30},
+  { nombre: "Nen", daño: 35 }
 );
 
 Leorio.habilidades.push(
-  { nombre: "Cuchillo", daño: 20 },
-  { nombre: "Golpe urdido", daño: 30 },
-  { nombre: "Patada", daño: 20 }
+  { nombre: "Golpe", daño: 15 },
+  { nombre: "Arma", daño: 20 },
+  { nombre: "Nen", daño: 15 }
 );
 
 Hisoka.habilidades.push(
-  { nombre: "Goma Bungee", daño: 30 },
-  { nombre: "Puño", daño: 20 },
-  { nombre: "Lanzar Naipe", daño: 20 }
+  { nombre: "Golpe", daño: 30 },
+  { nombre: "Arma", daño: 25 },
+  { nombre: "Nen", daño: 40 }
 );
 
 
@@ -126,38 +131,94 @@ function generarPersonajeElegido() {
         nombreJugador = `<p>${Gon.nombre}</p>`;
         fotoJugador = `<img src=${Gon.foto} alt=${Gon.foto}></img>`;
         vidaJugador = Gon.vida;
-        $nombreFotoJugador.innerHTML = nombreJugador + fotoJugador;
+        $nombreFotoJugador.innerHTML += nombreJugador + fotoJugador;
+        $vidaJugador.innerHTML = vidaJugador;
+        numeroDePersonaje = 0;
     } else if (document.getElementById("Killua").checked === true) {
         nombreJugador = `<p>${Killua.nombre}</p>`;
         fotoJugador = `<img src=${Killua.foto} alt=${Killua.foto}></img>`;
         vidaJugador = Killua.vida;
-        $nombreFotoJugador.innerHTML = nombreJugador + fotoJugador;
+        $nombreFotoJugador.innerHTML += nombreJugador + fotoJugador;
+        $vidaJugador.innerHTML = vidaJugador;
+        numeroDePersonaje = 1;
     } else if (document.getElementById("Kurapika").checked === true) {
         nombreJugador = `<p>${Kurapika.nombre}</p>`;
         fotoJugador = `<img src=${Kurapika.foto} alt=${Kurapika.foto}></img>`;
         vidaJugador = Kurapika.vida;
-        $nombreFotoJugador.innerHTML = nombreJugador + fotoJugador;
+        $nombreFotoJugador.innerHTML += nombreJugador + fotoJugador;
+        $vidaJugador.innerHTML = vidaJugador;
+        numeroDePersonaje = 2;
     } else if (document.getElementById("Leorio").checked === true) {
         nombreJugador = `<p>${Leorio.nombre}</p>`;
         fotoJugador = `<img src=${Leorio.foto} alt=${Leorio.foto}></img>`;
         vidaJugador = Leorio.vida;
-        $nombreFotoJugador.innerHTML = nombreJugador + fotoJugador;
+        $nombreFotoJugador.innerHTML += nombreJugador + fotoJugador;
+        $vidaJugador.innerHTML = vidaJugador;
+        numeroDePersonaje = 3;
     } else if (document.getElementById("Hisoka").checked === true) {
         nombreJugador = `<p>${Hisoka.nombre}</p>`;
         fotoJugador = `<img src=${Hisoka.foto} alt=${Hisoka.foto}></img>`;
         vidaJugador = Hisoka.vida;
-        $nombreFotoJugador.innerHTML = nombreJugador + fotoJugador;
+        $nombreFotoJugador.innerHTML += nombreJugador + fotoJugador;
+        $vidaJugador.innerHTML = vidaJugador;
+        numeroDePersonaje = 4;
     }
     generarTexto($vs, "VS")
     generarEnemigo()
 }
 
 function generarEnemigo() {
-    let enemigoAleatorio = aleatorio(0, 4)
-    nombreEnemigo = `<p>${personajes[enemigoAleatorio].nombre}</p>`;
-    fotoEnemigo = `<img src=${personajes[enemigoAleatorio].foto} alt=${personajes[enemigoAleatorio].foto}></img>`;
-    $nombreFotoEnemigo.innerHTML = nombreEnemigo + fotoEnemigo;
+    let enemigoAleatorio = aleatorio(0, 4);
+     if (enemigoAleatorio == numeroDePersonaje) {
+       generarEnemigo();
+     } else {
+       nombreEnemigo = `<p>${personajes[enemigoAleatorio].nombre}</p>`;
+       fotoEnemigo = `<img src=${personajes[enemigoAleatorio].foto} alt=${personajes[enemigoAleatorio].foto}></img>`;
+       vidaEnemigo = `${personajes[enemigoAleatorio].vida}`;
+       $nombreFotoEnemigo.innerHTML += nombreEnemigo + fotoEnemigo;
+       $vidaEnemigo.innerHTML = vidaEnemigo;
+    }
+    generarBotonesAtaque();
 }
+
+function generarBotonesAtaque() {
+    $contenedorHabilidadesJugador.innerHTML = botonHab1Jugador + botonHab2Jugador + botonHab3Jugador;
+    $contenedorHabilidadesEnemigo.innerHTML = botonHab1Enemigo + botonHab2Enemigo + botonHab3Enemigo;
+    const botonJugadorGolpe = document.getElementById("botonHab1Jugador");
+    const botonJugadorArma = document.getElementById("botonHab2Jugador");
+    const botonJugadorNen = document.getElementById("botonHab3Jugador");
+    
+
+    botonJugadorGolpe.addEventListener("click", ataqueGolpe);
+    botonJugadorArma.addEventListener("click", ataqueArma);
+    botonJugadorNen.addEventListener("click", ataqueNen);
+}
+
+let usoGolpe = 0;
+let usoArma = 0;
+let usoNen = 0;
+
+
+function ataqueGolpe() {
+    if (usoGolpe <= 2) {
+        vidaEnemigo = vidaEnemigo - `${personajes[numeroDePersonaje].habilidades[0].daño}`;
+        console.log(vidaEnemigo)
+        $vidaEnemigo.innerHTML = vidaEnemigo;
+        usoGolpe++
+    } else if (usoGolpe >= 3) {
+      botonJugadorGolpe.disabled = true;
+    }
+    
+}
+
+function ataqueArma() {
+    console.log("ataqueArma")
+}
+
+function ataqueNen() {
+  console.log("ataqueNen");
+}
+
 
 
 

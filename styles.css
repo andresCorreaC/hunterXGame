@@ -87,14 +87,6 @@ h2{
     pointer-events: auto;
 }
 
-/* #contenedor-habilidades-jugador{
-    pointer-events: none;
-}
-
-#contenedor-habilidades-jugador button{
-    pointer-events: auto;
-} */
-
 #contenedor-habilidades-enemigo{
     pointer-events: none;
 }
@@ -167,36 +159,91 @@ h2{
     flex-direction: column;
 }
 
+#batalla-personajes {
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    /* grid-template-rows: repeat(1fr, 20px, 1fr, 1fr); */
+    text-align: center;
+    padding: 10px;
+}
+
 #nombre-foto-jugador{
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 10px;
-    padding: 15px;
+    margin: 2px;
+    padding: 2px;
 }
 
 #nombre-foto-jugador img{
     height: auto;
-    width: 100px;
+    width: 80px;
     margin: 10px;
+}
+
+#vs{
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   font-size: x-large;
 }
 
 #nombre-foto-enemigo {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 10px;
-    padding: 15px;
+    margin: 2px;
+    padding: 2px;
 }
 
 #nombre-foto-enemigo img{
     height: auto;
-    width: 100px;
+    width: 80px;
     margin: 10px;
 }
 
 
+#resultado-batalla{
+    display:flex;
+    justify-content: center;
 
+}
+
+#vida-jugador{
+    grid-column: 1/2;
+    grid-row: 2/3;
+}
+
+#vida-enemigo{
+    grid-column: 3/4;
+    grid-row: 2/3;
+}
+
+.botones-ataque {
+    background-color: #BD1616;
+    border: 3px solid;
+    border-radius: 5px;
+    font-family: Hunter;
+    margin: 5px;
+    padding: 5px;
+    cursor:pointer;
+}
+
+#contenedor-habilidades-jugador{
+    display:grid;
+    grid-column: 1/2;
+    grid-row: 3/4;
+}
+
+#contenedor-habilidades-enemigo{
+    display:grid;
+    grid-column: 3/4;
+    grid-row: 3/4;
+}
+
+.botones-ataque:disabled{
+    background-color: #ccc;
+}
 
 
 
