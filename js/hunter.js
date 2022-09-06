@@ -1,6 +1,6 @@
 
-const seccionEleccionPersonaje = document.getElementById("eleccion-personaje");
-const seccionBatalla = document.getElementById("batalla");
+const $seccionEleccionPersonaje = document.getElementById("eleccion-personaje");
+const $seccionBatalla = document.getElementById("batalla");
 
 const $contenedorPersonaje = document.getElementById("contenedor-personaje");
 const $nombreFotoJugador = document.getElementById("nombre-foto-jugador");
@@ -12,23 +12,24 @@ const $vidaEnemigo = document.getElementById("vida-enemigo");
 const $contenedorHabilidadesEnemigo = document.getElementById("contenedor-habilidades-enemigo");
 const $resultadoBatalla = document.getElementById("resultado-batalla");
 
-const botonElegirPersonaje = document.getElementById("boton-elegir-personaje");
-const botonReiniciar = document.getElementById("boton-reiniciar");
+const $botonElegirPersonaje = document.getElementById("boton-elegir-personaje");
+const $botonReiniciar = document.getElementById("boton-reiniciar");
 
 const personajes = [];
-const inputPersonajes = [];
 
-
-
-let personajeJugador;
+let nombreJugador;
+let fotoJugador;
+let vidaJugador;
 let habilidadJugador;
 let botonHabJugador;
-let vidaJugador;
 
-let personajeEnemigo;
+
+let nombreEnemigo;
+let fotoEnemigo;
+let vidaEnemigo;
 let habilidadEnemigo;
 let botonHabEnemigo;
-let vidaEnemigo;
+
 
 let generarPersonajes;
 let botones;
@@ -40,8 +41,7 @@ const generarTexto = (elemento, texto) => (elemento.innerHTML = texto);
 
 
 class Cazadores {
-    constructor(id, nombre, foto, vida) {
-        this.id = id;
+    constructor(nombre, foto, vida) {
         this.nombre = nombre;
         this.foto = foto;
         this.vida = vida;
@@ -49,103 +49,147 @@ class Cazadores {
     }
 }
 
-let Gon = new Cazadores(0, "Gon", "./assets/Gon.png", 120);
-let Killua = new Cazadores(1, "Killua", "./assets/Killua.png", 110);
-let Kurapika = new Cazadores(2, "Kurapika", "./assets/Kurapika.png", 110);
-let Leorio = new Cazadores(3, "Leorio", "./assets/Leorio.png", 95);
-let Hisoka = new Cazadores(4, "Hisoka", "./assets/Hisoka.png", 130);
+let Gon = new Cazadores("Gon", "./assets/Gon.png", 120);
+let Killua = new Cazadores("Killua", "./assets/Killua.png", 110);
+let Kurapika = new Cazadores("Kurapika", "./assets/Kurapika.png", 110);
+let Leorio = new Cazadores("Leorio", "./assets/Leorio.png", 95);
+let Hisoka = new Cazadores("Hisoka", "./assets/Hisoka.png", 130);
 
 personajes.push(Gon, Killua, Kurapika, Leorio, Hisoka);
 
 
 Gon.habilidades.push(
-  { id: "GonHab0",  nombre: "Jajanken: Piedra", daño: 30 },
-  { id: "GonHab1", nombre: "Jajanken: Tijera", daño: 20 },
-  { id: "GonHab2", nombre: "Jajanken: Papel", daño: 20 }
+  { nombre: "Jajanken: Piedra", daño: 30 },
+  { nombre: "Jajanken: Tijera", daño: 20 },
+  { nombre: "Jajanken: Papel", daño: 20 }
 );
 
 Killua.habilidades.push(
-  { id: "KilluaHab0", nombre: "Palma Relámpago", daño: 25 },
-  { id: "KilluaHab1", nombre: "Yoyos", daño: 30 },
-  { id: "KilluaHab2", nombre: "Velocidad de Dios", daño: 20 }
+  { nombre: "Palma Relámpago", daño: 25 },
+  { nombre: "Yoyos", daño: 30 },
+  { nombre: "Velocidad de Dios", daño: 20 }
 );
 
 Kurapika.habilidades.push(
-  { id: "KurapikaHab0", nombre: "Cadenas Conjuradas", daño: 30 },
-  { id: "KurapikaHab1", nombre: "Holy Chain", daño: 0, cura: 20 },
-  { id: "KurapikaHab2", nombre: "Espadas Shikomizues", daño: 20 }
+  { nombre: "Cadenas Conjuradas", daño: 30 },
+  { nombre: "Holy Chain", daño: 0, cura: 20 },
+  { nombre: "Espadas Shikomizues", daño: 20 }
 );
 
 Leorio.habilidades.push(
-  { id: "LeorioHab0", nombre: "Cuchillo", daño: 20 },
-  { id: "LeorioHab1", nombre: "Golpe urdido", daño: 30 },
-  { id: "LeorioHab2", nombre: "Patada", daño: 20 }
+  { nombre: "Cuchillo", daño: 20 },
+  { nombre: "Golpe urdido", daño: 30 },
+  { nombre: "Patada", daño: 20 }
 );
 
 Hisoka.habilidades.push(
-  { id: "HisokaHab0", nombre: "Goma Bungee", daño: 30 },
-  { id: "HisokaHab1", nombre: "Puño", daño: 20 },
-  { id: "HisokaHab2", nombre: "Lanzar Naipe", daño: 20 }
+  { nombre: "Goma Bungee", daño: 30 },
+  { nombre: "Puño", daño: 20 },
+  { nombre: "Lanzar Naipe", daño: 20 }
 );
 
 
 
 function iniciarJuego() {
-    seccionBatalla.style.display = "none";
-    botonElegirPersonaje.disabled = true;
+    $seccionBatalla.style.display = "none";
+    $botonElegirPersonaje.disabled = true;
     generarSeccionEleccionPersonajes();
 }
 
 function generarSeccionEleccionPersonajes() {
-    personajes.forEach(elementoX => {
-        generarPersonajes = `
+  personajes.forEach((elementoX) => {
+    generarPersonajes = `
         <input type="radio" name="personaje" id=${elementoX.nombre} />
         <label for=${elementoX.nombre} class=${elementoX.nombre}>
         <p>${elementoX.nombre}</p>
         <img src=${elementoX.foto} alt=${elementoX.nombre}> </label>
         `;
-        $contenedorPersonaje.innerHTML += generarPersonajes;
-    });
-  
-    botonElegirPersonaje.addEventListener("click", generarSeccionBatalla);
-    $contenedorPersonaje.addEventListener("click", habilitarBotonElegir);
-   
-
-
-    inputGon = document.getElementById("Gon");
-    inputKillua = document.getElementById("Killua");
-    inputKurapika = document.getElementById("Kurapika");
-    inputLeorio = document.getElementById("Leorio");
-    inputHisoka = document.getElementById("Hisoka");
-
-    Gon.inputPersonaje = inputGon;
-    Killua.inputPersonaje = inputKillua;
-    Kurapika.inputPersonaje = inputKurapika;
-    Leorio.inputPersonaje = inputLeorio;
-    Hisoka.inputPersonaje = inputHisoka;
+    $contenedorPersonaje.innerHTML += generarPersonajes;
+  });
+  $contenedorPersonaje.addEventListener("click", habilitarBotonElegir);
+  $botonElegirPersonaje.addEventListener("click", generarSeccionBatalla);
 }
 
 function generarSeccionBatalla() {
-      seccionEleccionPersonaje.style.display = "none";
-      botonReiniciar.style.display = "none";
-      seccionBatalla.style.display = "flex";
+    $seccionEleccionPersonaje.style.display = "none";
+    $botonReiniciar.style.display = "none";
+    $seccionBatalla.style.display = "flex";
+    generarPersonajeElegido();
 }
 
-function habilitarBotonElegir(){
-  botonElegirPersonaje.disabled = false;
+function habilitarBotonElegir() {
+    $botonElegirPersonaje.disabled = false;
+}
+
+function generarPersonajeElegido() {
+    if (document.getElementById("Gon").checked === true) {
+        nombreJugador = `<p>${Gon.nombre}</p>`;
+        fotoJugador = `<img src=${Gon.foto} alt=${Gon.foto}></img>`;
+        vidaJugador = Gon.vida;
+        $nombreFotoJugador.innerHTML = nombreJugador + fotoJugador;
+    } else if (document.getElementById("Killua").checked === true) {
+        nombreJugador = `<p>${Killua.nombre}</p>`;
+        fotoJugador = `<img src=${Killua.foto} alt=${Killua.foto}></img>`;
+        vidaJugador = Killua.vida;
+        $nombreFotoJugador.innerHTML = nombreJugador + fotoJugador;
+    } else if (document.getElementById("Kurapika").checked === true) {
+        nombreJugador = `<p>${Kurapika.nombre}</p>`;
+        fotoJugador = `<img src=${Kurapika.foto} alt=${Kurapika.foto}></img>`;
+        vidaJugador = Kurapika.vida;
+        $nombreFotoJugador.innerHTML = nombreJugador + fotoJugador;
+    } else if (document.getElementById("Leorio").checked === true) {
+        nombreJugador = `<p>${Leorio.nombre}</p>`;
+        fotoJugador = `<img src=${Leorio.foto} alt=${Leorio.foto}></img>`;
+        vidaJugador = Leorio.vida;
+        $nombreFotoJugador.innerHTML = nombreJugador + fotoJugador;
+    } else if (document.getElementById("Hisoka").checked === true) {
+        nombreJugador = `<p>${Hisoka.nombre}</p>`;
+        fotoJugador = `<img src=${Hisoka.foto} alt=${Hisoka.foto}></img>`;
+        vidaJugador = Hisoka.vida;
+        $nombreFotoJugador.innerHTML = nombreJugador + fotoJugador;
+    }
+    generarTexto($vs, "VS")
+    generarEnemigo()
+}
+
+function generarEnemigo() {
+    let enemigoAleatorio = aleatorio(0, 4)
+    nombreEnemigo = `<p>${personajes[enemigoAleatorio].nombre}</p>`;
+    fotoEnemigo = `<img src=${personajes[enemigoAleatorio].foto} alt=${personajes[enemigoAleatorio].foto}></img>`;
+    $nombreFotoEnemigo.innerHTML = nombreEnemigo + fotoEnemigo;
 }
 
 
 
 window.addEventListener("load", iniciarJuego);
 
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
 
 
 
-
-
-
-
+    
+    
+    
 
 
 // function generarTarjetaPersonaje() {
