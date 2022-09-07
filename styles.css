@@ -259,7 +259,7 @@ h2{
 
 #boton-reiniciar {
     grid-column: 1/4;
-    grid-row: 4/5;
+    grid-row: 6/7;
     justify-content: center;
 }
 
@@ -280,8 +280,12 @@ h2{
 #eligue-tu-ataque{
     grid-column: 1/4;
     grid-row: 3/4;
-    font-size: 40px;
+    font-size: 35px;
     margin: 15px;
+}
+
+p{
+    font-size: 35px;
 }
 
 
