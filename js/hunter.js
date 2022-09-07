@@ -1,43 +1,25 @@
 
 const $seccionEleccionPersonaje = document.getElementById("eleccion-personaje");
-const $seccionBatalla = document.getElementById("batalla");
-
 const $contenedorPersonaje = document.getElementById("contenedor-personaje");
+const $botonElegirPersonaje = document.getElementById("boton-elegir-personaje");
+
+const $seccionBatalla = document.getElementById("batalla");
 const $nombreFotoJugador = document.getElementById("nombre-foto-jugador");
 const $vidaJugador = document.getElementById("vida-jugador");
-const $contenedorHabilidadesJugador = document.getElementById("contenedor-habilidades-jugador");
 const $vs = document.getElementById("vs");
 const $nombreFotoEnemigo = document.getElementById("nombre-foto-enemigo");
 const $vidaEnemigo = document.getElementById("vida-enemigo");
-const $contenedorHabilidadesEnemigo = document.getElementById("contenedor-habilidades-enemigo");
+const $contenedorHabilidadesJugador = document.getElementById("contenedor-habilidades-jugador");
 const $resultadoBatalla = document.getElementById("resultado-batalla");
 
-const $botonElegirPersonaje = document.getElementById("boton-elegir-personaje");
 const $botonReiniciar = document.getElementById("boton-reiniciar");
 
-const personajes = [];
-
-let nombreJugador;
-let fotoJugador;
 let vidaJugador;
 let numeroDePersonaje;
-let botonHab1Jugador = `<button id="botonHab1Jugador" class="botones-ataque" type="button">Golpe</button>`;
-let botonHab2Jugador = `<button id="botonHab2Jugador" class="botones-ataque" type="button">Arma</button>`;
-let botonHab3Jugador = `<button id="botonHab3Jugador" class="botones-ataque" type="button">Habilidad Nen</button>`;
 
-
-
-let nombreEnemigo;
-let fotoEnemigo;
 let vidaEnemigo;
-let botonHab1Enemigo = `<button id="botonHab1Enemigo" class="botones-ataque" type="button">Golpe</button>`;
-let botonHab2Enemigo = `<button id="botonHab2Enemigo" class="botones-ataque" type="button">Arma</button>`;
-let botonHab3Enemigo = `<button id="botonHab3Enemigo" class="botones-ataque" type="button">Habilidad Nen</button>`;
- 
+let enemigoAleatorio = 0; 
 
-
-let generarPersonajes;
-let botones;
 
 //Constantes - funciones
 const aleatorio = (min, max) => {return Math.floor(Math.random() * (max - min + 1) + min)}
@@ -59,6 +41,8 @@ let Killua = new Cazadores("Killua", "./assets/Killua.png", 110);
 let Kurapika = new Cazadores("Kurapika", "./assets/Kurapika.png", 110);
 let Leorio = new Cazadores("Leorio", "./assets/Leorio.png", 95);
 let Hisoka = new Cazadores("Hisoka", "./assets/Hisoka.png", 130);
+
+const personajes = [];
 
 personajes.push(Gon, Killua, Kurapika, Leorio, Hisoka);
 
@@ -82,9 +66,9 @@ Kurapika.habilidades.push(
 );
 
 Leorio.habilidades.push(
-  { nombre: "Golpe", daño: 15 },
-  { nombre: "Arma", daño: 20 },
-  { nombre: "Nen", daño: 15 }
+  { nombre: "Golpe", daño: 20 },
+  { nombre: "Arma", daño: 25 },
+  { nombre: "Nen", daño: 25 }
 );
 
 Hisoka.habilidades.push(
@@ -93,15 +77,15 @@ Hisoka.habilidades.push(
   { nombre: "Nen", daño: 40 }
 );
 
-
-
 function iniciarJuego() {
+    $seccionEleccionPersonaje.style.display = "grid"
     $seccionBatalla.style.display = "none";
     $botonElegirPersonaje.disabled = true;
     generarSeccionEleccionPersonajes();
 }
 
 function generarSeccionEleccionPersonajes() {
+  let generarPersonajes;
   personajes.forEach((elementoX) => {
     generarPersonajes = `
         <input type="radio" name="personaje" id=${elementoX.nombre} />
@@ -127,6 +111,8 @@ function habilitarBotonElegir() {
 }
 
 function generarPersonajeElegido() {
+    let nombreJugador;
+    let fotoJugador;
     if (document.getElementById("Gon").checked === true) {
         nombreJugador = `<p>${Gon.nombre}</p>`;
         fotoJugador = `<img src=${Gon.foto} alt=${Gon.foto}></img>`;
@@ -166,9 +152,11 @@ function generarPersonajeElegido() {
     generarTexto($vs, "VS")
     generarEnemigo()
 }
-
+     
 function generarEnemigo() {
-    let enemigoAleatorio = aleatorio(0, 4);
+    let nombreEnemigo;
+    let fotoEnemigo;
+    enemigoAleatorio = aleatorio(0, 4);  
      if (enemigoAleatorio == numeroDePersonaje) {
        generarEnemigo();
      } else {
@@ -182,44 +170,121 @@ function generarEnemigo() {
 }
 
 function generarBotonesAtaque() {
+
+    let botonHab1Jugador = `<button id="botonHab1Jugador" class="botones-ataqueJ" type="button">Golpe</button>`;
+    let botonHab2Jugador = `<button id="botonHab2Jugador" class="botones-ataqueJ" type="button">Arma</button>`;
+    let botonHab3Jugador = `<button id="botonHab3Jugador" class="botones-ataqueJ" type="button">Habilidad Nen</button>`;
+
     $contenedorHabilidadesJugador.innerHTML = botonHab1Jugador + botonHab2Jugador + botonHab3Jugador;
-    $contenedorHabilidadesEnemigo.innerHTML = botonHab1Enemigo + botonHab2Enemigo + botonHab3Enemigo;
-    const botonJugadorGolpe = document.getElementById("botonHab1Jugador");
-    const botonJugadorArma = document.getElementById("botonHab2Jugador");
-    const botonJugadorNen = document.getElementById("botonHab3Jugador");
-    
+
+    let botonJugadorGolpe = document.getElementById("botonHab1Jugador");
+    let botonJugadorArma = document.getElementById("botonHab2Jugador");
+    let botonJugadorNen = document.getElementById("botonHab3Jugador");
 
     botonJugadorGolpe.addEventListener("click", ataqueGolpe);
     botonJugadorArma.addEventListener("click", ataqueArma);
     botonJugadorNen.addEventListener("click", ataqueNen);
 }
 
-let usoGolpe = 0;
-let usoArma = 0;
-let usoNen = 0;
 
 
-function ataqueGolpe() {
+
+function ataqueGolpe() {  
+    let usoGolpe = 0;
+    let botonJugadorGolpe = document.getElementById("botonHab1Jugador");
     if (usoGolpe <= 2) {
         vidaEnemigo = vidaEnemigo - `${personajes[numeroDePersonaje].habilidades[0].daño}`;
-        console.log(vidaEnemigo)
         $vidaEnemigo.innerHTML = vidaEnemigo;
         usoGolpe++
-    } else if (usoGolpe >= 3) {
-      botonJugadorGolpe.disabled = true;
     }
-    
+    if (usoGolpe === 3) {
+        botonJugadorGolpe.disabled = true;
+    }
+    dañoEnemigo()
+    finDelJuego();
 }
 
 function ataqueArma() {
-    console.log("ataqueArma")
+    let usoArma = 0;
+    let botonJugadorArma = document.getElementById("botonHab2Jugador");
+    if (usoArma <= 2) {
+        vidaEnemigo = vidaEnemigo - `${personajes[numeroDePersonaje].habilidades[1].daño}`;
+        $vidaEnemigo.innerHTML = vidaEnemigo;
+        usoArma++;
+    }
+    if (usoArma === 2) {
+      botonJugadorArma.disabled = true;
+    }
+    dañoEnemigo()
+    finDelJuego();
 }
 
 function ataqueNen() {
-  console.log("ataqueNen");
+    let usoNen = 0;
+    let botonJugadorNen = document.getElementById("botonHab3Jugador");
+    if (usoNen <= 0) {
+      vidaEnemigo = vidaEnemigo - `${personajes[numeroDePersonaje].habilidades[2].daño}`;
+      $vidaEnemigo.innerHTML = vidaEnemigo;
+      usoNen++;
+    }
+    if (usoNen === 1) {
+      botonJugadorNen.disabled = true;
+    }
+    dañoEnemigo()
+    finDelJuego()
 }
 
+function dañoEnemigo() {
+    let dañoAleatorio = aleatorio(0, 2);
+    vidaJugador = vidaJugador - `${personajes[enemigoAleatorio].habilidades[dañoAleatorio].daño}`;
+    $vidaJugador.innerHTML = vidaJugador;
+    $resultadoBatalla.innerHTML = `El enemigo uso ${personajes[enemigoAleatorio].habilidades[dañoAleatorio].nombre}`;
+}
 
+function finDelJuego() {
+    let botonJugadorGolpe = document.getElementById("botonHab1Jugador");
+    let botonJugadorArma = document.getElementById("botonHab2Jugador");
+    let botonJugadorNen = document.getElementById("botonHab3Jugador");
+    if (vidaJugador <= 0 && vidaEnemigo <= 0) {
+        botonJugadorGolpe.disabled = true;
+        botonJugadorArma.disabled = true;
+        botonJugadorNen.disabled = true;
+        $resultadoBatalla.innerHTML = "Ambos Perdieron, <br> Fin del Juego";
+        $botonReiniciar.style.display = "flex";
+    } else if (vidaJugador <= 0) {          
+        botonJugadorGolpe.disabled = true;
+        botonJugadorArma.disabled = true;
+        botonJugadorNen.disabled = true;
+        $resultadoBatalla.innerHTML = "Perdiste, Fin del Juego";
+        $botonReiniciar.style.display = "flex";
+    } else    if (vidaEnemigo <= 0) {
+        botonJugadorGolpe.disabled = true;
+        botonJugadorArma.disabled = true;
+        botonJugadorNen.disabled = true;
+        $resultadoBatalla.innerHTML = "Ganaste, Fin del Juego";
+        $botonReiniciar.style.display = "flex";
+    }
+     $botonReiniciar.addEventListener("click", reiniciarJuego);
+}
+   
+
+function reiniciarJuego() {
+    
+    // $seccionEleccionPersonaje 
+    $contenedorPersonaje.innerHTML = "";
+    // $botonElegirPersonaje 
+    // $seccionBatalla
+    $nombreFotoJugador.innerHTML = "";
+    $vidaJugador.innerHTML = "";
+    // $vs
+    $nombreFotoEnemigo.innerHTML = "";
+    $vidaEnemigo.innerHTML = "";
+    $contenedorHabilidadesJugador.innerHTML = "";
+    $resultadoBatalla.innerHTML = "";
+    // $botonReiniciar
+    // $seccionEleccionPersonaje.style.display = "grid";
+    iniciarJuego();
+}
 
 
 window.addEventListener("load", iniciarJuego);
